@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Меню на день рождения</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+:root{
+  --bg:#f5f4f8; --card:#ffffff; --ink:#333333; --mut:#6d6d78; --line:#e2e0e8;
+  --red:#FF4040; --red-2:#FF1010; --green:#02C85F; --blue:#0287C8; --imp:#7030A0;
+  --sel-bg:#eefaf3; --shadow:0 1px 2px rgba(51,51,51,.06),0 8px 24px rgba(51,51,51,.06);
+  --btn-ink:#ffffff;
+  --font:"Source Sans 3",Tahoma,Verdana,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){
+  --bg:#16161a; --card:#202027; --ink:#E5E5E5; --mut:#9a9aa8; --line:#33333d;
+  --red:#FF6060; --red-2:#FF6060; --green:#02C85F; --blue:#75C4EB; --imp:#A76ED1;
+  --sel-bg:#162b20; --btn-ink:#14141a; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}}
+:root[data-theme=dark]{
+  --bg:#16161a; --card:#202027; --ink:#E5E5E5; --mut:#9a9aa8; --line:#33333d;
+  --red:#FF6060; --red-2:#FF6060; --green:#02C85F; --blue:#75C4EB; --imp:#A76ED1;
+  --sel-bg:#162b20; --btn-ink:#14141a; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 var(--font);padding-bottom:124px;-webkit-text-size-adjust:100%}
+header{padding:24px 16px 10px;max-width:820px;margin:0 auto}
+.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:12px;font-weight:700;color:var(--red);margin:0 0 6px}
+h1{font-size:27px;line-height:1.15;letter-spacing:-.01em;margin:0 0 14px;text-wrap:balance}
+header p{margin:0 0 14px;color:var(--mut)}
+.inv{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--red);border-radius:14px;padding:16px;margin:0 0 14px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:9px}
+.inv p{margin:0}
+.inv .big{color:var(--ink);font-size:17px;line-height:1.45}
+.inv .when{color:var(--red);font-weight:700;white-space:nowrap}
+.inv .where{color:var(--imp);font-weight:700}
+.inv .addr{align-self:start;display:inline-flex;gap:6px;color:var(--blue);text-decoration:none;font-size:15px;border-bottom:1px solid currentColor;padding-bottom:1px}
+.inv .note{font-size:14px;color:var(--mut)}
+.lede{font-size:15px}
+.lede a,.tip a{color:var(--blue);font-weight:600}
+.tip{margin:0 0 14px;font-size:15px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-left:3px solid var(--green);border-radius:10px;padding:11px 13px}
+.fields{display:flex;gap:8px;flex-wrap:wrap}
+.fields>*{flex:1 1 200px}
+.searchwrap{position:relative;display:flex}
+input[type=search]::-webkit-search-cancel-button{display:none}
+.searchwrap input{padding-right:38px}
+.clr{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:28px;height:28px;border:0;background:none;color:var(--mut);font-size:18px;line-height:1;cursor:pointer;border-radius:50%}
+.clr:hover{color:var(--ink)}
+.empty{padding:28px 4px;color:var(--mut);text-align:center}
+h2[hidden],.card[hidden],.empty[hidden]{display:none!important}
+input[type=text],input[type=search]{width:100%;-webkit-appearance:none;appearance:none;font:inherit;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+input[type=text]:focus-visible,input[type=search]:focus-visible{outline:2px solid var(--blue);outline-offset:1px;border-color:var(--blue)}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;padding:9px 16px;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 26px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 26px),transparent)}
+nav a{display:inline-block;padding:6px 13px;margin-right:6px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:14px}
+nav a:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+main{max-width:820px;margin:0 auto;padding:0 16px}
+h2{font-size:15px;text-transform:uppercase;letter-spacing:.1em;color:var(--imp);margin:28px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line);scroll-margin-top:60px}
+.card{display:grid;grid-template-columns:96px 1fr;gap:13px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px;margin-bottom:10px;transition:border-color .15s,background .15s}
+.card.on{border-color:var(--green);background:var(--sel-bg)}
+.ph{width:96px;height:96px;align-self:start;border-radius:10px;object-fit:cover;background:var(--line);cursor:zoom-in}
+.noph{display:flex;align-items:center;justify-content:center;font-size:30px;cursor:default;color:var(--mut)}
+.t{font-weight:700;letter-spacing:-.005em}
+.w{color:var(--mut);font-size:13px;font-weight:400;margin-left:5px;font-variant-numeric:tabular-nums}
+.d{color:var(--mut);font-size:13.5px;margin:3px 0 7px}
+.row{display:flex;align-items:center;gap:8px;padding:5px 0;border-top:1px solid var(--line)}
+.row:first-of-type{border-top:0}
+.row label{flex:1;display:flex;align-items:center;gap:9px;cursor:pointer}
+.row.on label{font-weight:600}
+.row input[type=checkbox]{width:22px;height:22px;accent-color:var(--green);margin:0;flex:none}
+.row input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.q{display:none;align-items:center;gap:3px}
+.row.on .q{display:flex}
+.q button{width:29px;height:29px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;font-size:16px;line-height:1;cursor:pointer}
+.q span{min-width:24px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);padding:11px 16px calc(11px + env(safe-area-inset-bottom,0px));box-shadow:0 -4px 22px rgba(0,0,0,.09)}
+.bar .in{max-width:820px;margin:0 auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.bar .n{flex:1;min-width:110px;font-weight:700;font-size:15px}
+.bar .n b{color:var(--green)}
+.bar button{font:inherit;font-weight:700;padding:12px 16px;border-radius:10px;border:0;cursor:pointer;color:var(--btn-ink)}
+.bar button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+#copy{background:var(--red)}
+#tg{background:var(--blue)}
+#toast{position:fixed;left:50%;bottom:118px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;opacity:0;transition:opacity .2s;pointer-events:none;font-size:14px;max-width:90vw;text-align:center}
+dialog{border:0;background:transparent;padding:0;max-width:96vw}
+dialog::backdrop{background:rgba(0,0,0,.82)}
+dialog img{max-width:96vw;max-height:90vh;border-radius:12px;display:block}
+.tag{font-size:12px;margin-left:4px}
+#pick{max-width:560px;width:92vw;background:var(--card);color:var(--ink);border-radius:16px;padding:0;box-shadow:var(--shadow)}
+#pick .hd{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--line)}
+#pick .hd h3{margin:0;font-size:17px;flex:1}
+#pick .x{border:0;background:none;color:var(--mut);font-size:24px;line-height:1;cursor:pointer;padding:0 4px}
+#pick .list{max-height:60vh;overflow-y:auto;padding:6px 16px}
+#pick .li{display:flex;align-items:center;gap:8px;padding:9px 0;border-top:1px solid var(--line)}
+#pick .li:first-child{border-top:0}
+#pick .li .nm{flex:1;font-size:15px}
+#pick .li .nm small{display:block;color:var(--mut);font-size:13px}
+#pick .li .del{border:0;background:none;color:var(--red);font-size:19px;line-height:1;cursor:pointer;padding:2px 4px}
+#pick .ft{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--line);flex-wrap:wrap}
+#pick .ft button{font:inherit;font-weight:700;padding:11px 14px;border-radius:10px;cursor:pointer;border:0}
+#pick .ghost{background:none;border:1px solid var(--line)!important;color:var(--ink)}
+#pick .send{background:var(--blue);color:var(--btn-ink);flex:1}
+#pick .cat{margin:12px 0 2px;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--imp)}
+#pick .none{padding:24px 0;text-align:center;color:var(--mut)}
+.bar .n{cursor:pointer;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-weight:700;font-size:15px;border-radius:10px;padding:11px 13px;text-align:left}
+@media (min-width:720px){
+  main,header,.bar .in,nav{max-width:760px;margin-left:auto;margin-right:auto}
+  .card{grid-template-columns:124px 1fr;gap:16px;padding:13px}
+  .ph{width:124px;height:124px}
+  .t{font-size:17px}
+  .d{font-size:14px}
+  h1{font-size:34px}
+  h2{margin-top:34px}
+  nav{white-space:normal;overflow:visible;display:flex;flex-wrap:wrap;gap:7px;padding:10px 16px}
+  nav a{margin-right:0}
+  nav{-webkit-mask-image:none;mask-image:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <p class="eyebrow">День рождения Дмитрия</p>
+  <h1>Что будем есть</h1>
+  <div class="inv">
+    <p class="big">Буду рад видеть тебя <span class="when">27 сентября в 16:00</span><br>в ресторане <span class="where">Grill vino &amp; хачапури</span></p>
+    <a class="addr" href="https://yandex.ru/maps/-/CXEuJGk3" target="_blank" rel="noopener">📍 просп. Авиаторов Балтики, 11/1, Мурино</a>
+    <p class="note">При входе скажи, что ты на день рождения Дмитрия, тебя проводят к столам.</p>
+  </div>
+  <p class="lede">Отметь, что будешь есть и пить, и нажми кнопку внизу: откроется наш чат в Telegram с готовым сообщением. Вечер без алкоголя. Фото увеличиваются по тапу.</p>
+  <p class="tip">🍢 <a href="#c-company">Блюда на компанию</a> бери смело: садж, ассорти шашлыков и хачапури XXL закажем на всех.</p>
+  <div class="fields">
+    <input type="text" id="name" placeholder="Как тебя зовут" autocomplete="name">
+    <div class="searchwrap"><input type="search" id="q" placeholder="Поиск по блюдам" autocomplete="off"><button class="clr" id="qclr" type="button" hidden aria-label="Очистить поиск">×</button></div>
+  </div>
+</header>
+<nav id="nav"></nav>
+<main id="main"></main>
+<div class="empty" id="empty" hidden>Ничего не нашлось. Попробуй другое слово.</div>
+<div class="bar"><div class="in">
+  <button class="n" id="count" type="button">Пока ничего не выбрано</button>
+  <button id="copy">Скопировать список</button>
+  <button id="tg">Отправить Диме в Telegram</button>
+</div></div>
+<div id="toast">Скопировано</div>
+<dialog id="dlg"><img alt=""></dialog>
+<dialog id="pick">
+  <div class="hd"><h3>Мой выбор</h3><button class="x" id="pickX" type="button" aria-label="Закрыть">×</button></div>
+  <div class="list" id="pickList"></div>
+  <div class="ft">
+    <button class="ghost" id="pickClear" type="button">Очистить всё</button>
+    <button class="send" id="pickSend" type="button">Отправить Диме</button>
+  </div>
+</dialog>
+<script>
+const CATS=[["cold","Холодные закуски"],["salads","Салаты"],["hot","Горячие закуски"],["soups","Супы"],["kh","Хачапури и выпечка"],["hinkali","Хинкали"],["mains","Горячие блюда"],["company","На компанию"],["sides","Гарниры"],["bread","Хлеб и соусы"],["lemon","Лимонады и коктейли без алкоголя"],["drinks","Напитки"],["coffee","Кофе"],["tea","Чай"]];
+// n name, w weight, p price, d description, i image id, s spicy, c chef pick, v variants [name,price], min min qty, u unit
+const ITEMS=[
+// cold
+{c:"cold",n:"Хумус из красной фасоли",w:"120/70/50 г",p:420,d:"Острая восточная закуска из красной фасоли со спелыми томатами. Подаётся с питой",i:"hummus",s:1},
+{c:"cold",n:"Домашние соленья",w:"400 г",p:590,i:"pickles"},
+{c:"cold",n:"Рулеты из жареных баклажанов с ореховой начинкой",w:"160 г",p:490,i:"eggplant-rolls",ch:1},
+{c:"cold",n:"Сет грузинских закусок",w:"500 г",p:890,d:"Пхали из свеклы и шпината, рулеты из баклажанов, хумус из красной фасоли, бабагануш из запечённых баклажанов. Подаётся с сырными лепёшками от шефа",i:"set",ch:1},
+{c:"cold",n:"Баклажаны в соусе баже",w:"180 г",p:420,d:"Хрустящие баклажаны в ореховом соусе",i:"eggplant-bazhe"},
+{c:"cold",n:"Сезонные овощи с зеленью",w:"300 г",p:550,i:"veg"},
+{c:"cold",n:"Сельдь с картофелем",w:"350 г",p:480,d:"Сельдь с молодым картофелем, красным луком и зеленью",i:"herring"},
+{c:"cold",n:"Тар-тар из лосося",w:"160 г",p:780,d:"Лёгкая закуска из лосося и спелого авокадо на подушке из сырного крема в хрустящей корзинке",i:"salmon-tartare"},
+{c:"cold",n:"Мясное ассорти",w:"180/100/20 г",p:750,d:"Вяленое мясо (бастурма, суджук), грудинка, балык из свинины. Подаётся с кукурузой и ароматной горчицей",i:"meat-platter"},
+{c:"cold",n:"Ассорти грузинских сыров",w:"200/50/50 г",p:750,d:"Сулугуни, копчёный сулугуни, чечил, копчёная косичка, адыгейский сыр. Подаётся с ореховой выпечкой, домашним вареньем и мёдом",i:"cheese-platter"},
+{c:"cold",n:"Бабагануш",w:"120/50 г",p:450,d:"Икра из запечённых на углях баклажанов и паприки. Подаётся с питой",i:"babaganush",s:1,ch:1},
+{c:"cold",n:"Пхали из свеклы и шпината",w:"120/50 г",p:390,d:"Классическая грузинская закуска со шпинатом, свеклой, грузинскими специями и грецким орехом. Подаётся с лепёшкой пури",i:"pkhali"},
+{c:"cold",n:"Сациви из цыплёнка",w:"200 г",p:490,d:"Традиционное грузинское блюдо из курицы в ореховом соусе",i:"satsivi"},
+// salads
+{c:"salads",n:"Грузинский салат",w:"240 г",p:470,d:"Острый салат со спелыми томатами, свежими огурцами, красным луком и грецкими орехами",i:"georgian-salad",s:1,ch:1},
+{c:"salads",n:"Оливье с цыплёнком",w:"200 г",p:397,d:"Филе цыплёнка су-вид, куриное яйцо, томаты черри, домашний майонез",i:"olivier-chicken"},
+{c:"salads",n:"Мангал-салат",w:"200/50 г",p:490,d:"Запечённые на углях овощи со свежим томатом, заправленные винным уксусом, чесноком и свежей зеленью. Подаётся с питой",i:"mangal-salad"},
+{c:"salads",n:"Салат с хрустящими баклажанами",w:"220 г",p:597,d:"Хрустящие баклажаны со спелыми томатами и сливочным сыром под сладко-острым соусом",i:"crispy-eggplant-salad",ch:1},
+{c:"salads",n:"Цезарь с курицей",w:"235 г",p:590,d:"Ромейн, томаты черри, куриное филе, перепелиное яйцо, пармезан, чипсы из багета",i:"caesar-chicken"},
+{c:"salads",n:"Тбилисури",w:"250 г",p:590,d:"Микс айсберг и ромейн, жареное филе цыплёнка, свежие томаты, красный лук, орехово-сливочный соус. Подаётся с обжаренным адыгейским сыром",i:"tbilisuri",s:1},
+{c:"salads",n:"Салат с подкопчённым цыплёнком",w:"180 г",p:490,d:"Салатные листья, запечённый картофель, копчёное филе цыплёнка, томаты черри, пармезан, соус тандури",i:"smoked-chicken-salad"},
+{c:"salads",n:"Оливье с лососем",w:"200 г",p:570,d:"Филе лосося слабой соли, куриное яйцо, томаты черри, домашний майонез",i:"olivier-salmon"},
+{c:"salads",n:"Салат с тунцом",w:"220 г",p:590,d:"Микс айсберг и ромейн, свежие томаты, куриное яйцо, тунец в собственном соку",i:"tuna-salad"},
+{c:"salads",n:"Цезарь с креветкой",w:"220 г",p:650,d:"Ромейн, томаты черри, тигровые креветки, перепелиное яйцо, пармезан, чипсы из багета",i:"caesar-shrimp"},
+{c:"salads",n:"Салат с лососем и авокадо",w:"165 г",p:670,d:"Свежие листья салата со спелым авокадо, лососем слабой соли, перепелиным яйцом и маслинами",i:"salmon-avocado-salad"},
+// hot appetizers
+{c:"hot",n:"Сырные палочки",w:"120/30/20 г",p:450,d:"Сулугуни в хрустящей панировке. Подаётся с брусничным соусом, черносливом и курагой",i:"cheese-sticks"},
+{c:"hot",n:"Креветки под соусом киндзмари",w:"200 г",p:790,d:"Жареные тигровые креветки под соусом киндзмари",i:"shrimp-kindzmari",s:1},
+{c:"hot",n:"Креветки под соусом чкмерули",w:"250 г",p:890,d:"Жареные тигровые креветки в сливочно-чесночном соусе",i:"shrimp-chkmeruli"},
+{c:"hot",n:"Аджапсандал",w:"300 г",p:490,d:"Жареные овощи с грузинскими специями и ароматной зеленью",i:"ajapsandal"},
+{c:"hot",n:"Долма",w:"180/50 г",p:590,d:"Фарш из свинины и говядины с рисом и травами в виноградных листьях. Подаётся с соусом мацони",i:"dolma",ch:1},
+{c:"hot",n:"Запечённые шампиньоны под сыром сулугуни",w:"220 г",p:430,i:"mushrooms-suluguni"},
+{c:"hot",n:"Лобио",w:"300/50/50 г",p:390,d:"Томлёная красная фасоль с пряными специями. Подаётся с маринованной гурийской капустой и питой",i:"lobio"},
+// soups
+{c:"soups",n:"Харчо",w:"300 г",p:490,d:"Острый грузинский суп с говядиной, рисом, томатами и специями",i:"kharcho",s:1,ch:1},
+{c:"soups",n:"Борщ с говядиной",w:"300/100/30 г",p:470,d:"Подаётся с салом, зелёным луком, сметаной и бородинским хлебом",i:"borscht"},
+{c:"soups",n:"Чанахи",w:"400/100 г",p:550,d:"Наваристый грузинский суп с бараниной и овощами. Подаётся с лепёшкой пури",i:"chanakhi"},
+{c:"soups",n:"Уха по-батумски",w:"300 г",p:590,d:"Сливочно-томатный суп на курином бульоне с лососем и тигровой креветкой",i:"ukha",ch:1},
+{c:"soups",n:"Куриный суп с домашней лапшой",w:"300 г",p:390,d:"Куриный бульон с лапшой и яйцом",i:"chicken-soup"},
+{c:"soups",n:"Грибной крем-суп",w:"300/50 г",p:490,d:"Крем-суп из шампиньонов. Подаётся с пармезаном",i:"mushroom-soup"},
+{c:"soups",n:"Чихиртма",w:"300 г",p:430,d:"Густой грузинский суп с мясом цыплёнка и пряностями",i:"chikhirtma"},
+// khachapuri
+{c:"kh",n:"Хачапури по-мегрельски",w:"450 г",p:590,d:"Круглый, с сулугуни внутри и снаружи",i:"kh-megrelian",ch:1},
+{c:"kh",n:"Хачапури по-имеретински",w:"450 г",p:590,d:"Круглый, с сулугуни внутри",i:"kh-imeretian"},
+{c:"kh",n:"Хачапури с копчёным сыром",w:"500 г",p:690,d:"Сулугуни внутри и копчёный сулугуни снаружи",i:"kh-smoked"},
+{c:"kh",n:"Хачапури по-аджарски",w:"400 г",p:570,d:"Лодочка, подаётся с куриным желтком",i:"kh-adjarian",ch:1},
+{c:"kh",n:"Хачапури по-гурийски",w:"350 г",p:490,d:"С начинкой из сулугуни, куриного яйца и зелёного лука",i:"kh-gurian"},
+{c:"kh",n:"Хачапури по-аджарски чкмерули",w:"400 г",p:620,i:"kh-chkmeruli"},
+{c:"kh",n:"Хачапури по-аджарски капрезе",w:"400 г",p:620,i:"kh-caprese"},
+{c:"kh",n:"Хачапури по-аджарски XXL",w:"1700 г",p:1990,d:"На компанию. С сулугуни, подаётся с куриными желтками",i:"kh-xxl"},
+{c:"kh",n:"Пенновани",w:"450 г",d:"Хачапури из слоёного теста с сулугуни",i:"pennovani",v:[["Классический",470],["С беконом",520]]},
+{c:"kh",n:"Картофчин",w:"500 г",p:530,d:"Хачапури с сулугуни, мятым картофелем и жареным луком",i:"kartofchin"},
+{c:"kh",n:"Хачапури с зеленью",w:"450 г",p:550,d:"Слоёное тесто, сулугуни, шпинат и кинза",i:"kh-greens"},
+{c:"kh",n:"Ламаджо",w:"300/30 г",d:"Тонкая хрустящая лепёшка с острой начинкой из рубленого мяса и томатов. Подаётся со свежим лимоном",i:"lamadjo",ch:1,v:[["С говядиной",550],["С бараниной",570]]},
+{c:"kh",n:"Кубдари",w:"450 г",p:850,d:"Домашний мясной пирог с говядиной и свининой со свежей зеленью",i:"kubdari"},
+{c:"kh",n:"Пиде",w:"400 г",i:"pide",ch:1,v:[["С грибами и сулугуни",590],["С говядиной и сулугуни 🌶",670]]},
+// hinkali
+{c:"hinkali",n:"Хинкали варёные",w:"90 г шт.",d:"Лепят вручную, от 2 штук одного вида",i:"hinkali",u:"шт",min:2,v:[["Говядина-свинина 🌶",99],["Говядина 🌶",109],["Баранина",109],["Цыплёнок",99],["Грибы",99],["Сыр",99]]},
+{c:"hinkali",n:"Хинкали жареные",w:"90 г шт.",d:"От 4 штук одного вида",i:"hinkali-fried",u:"шт",min:4,v:[["Говядина-свинина 🌶",119],["Говядина 🌶",129],["Баранина",129],["Цыплёнок",119],["Грибы",119],["Сыр",119]]},
+// mains
+{c:"mains",n:"Оджахури",w:"300 г",d:"Жареный картофель с мясом на выбор, свежим красным луком и зёрнами граната",i:"ojakhuri",ch:1,v:[["С грибами",550],["С цыплёнком",570],["Со свининой",590],["С бараниной",690],["С лососем",1190]]},
+{c:"mains",n:"Чахохбили",w:"300 г",p:570,d:"Жареное филе цыплёнка с томатами, грузинскими специями и свежей зеленью",i:"chakhokhbili"},
+{c:"mains",n:"Чашушули",w:"300 г",p:690,d:"Говядина, томлёная в остром томатном соусе с паприкой и грузинскими специями",i:"chashushuli",s:1},
+{c:"mains",n:"Чкмерули",w:"300 г",p:690,d:"Филе цыплёнка в сливочно-чесночном соусе со сванской солью и кинзой",i:"chkmeruli"},
+{c:"mains",n:"Свиные рёбра BBQ",w:"250/150 г",p:790,d:"Под соусом BBQ с картофелем пай, коул-слоу и капустой по-гурийски",i:"ribs"},
+{c:"mains",n:"Бифштекс",w:"150/150/40 г",p:790,d:"Из говядины и свинины, с молодым картофелем, яйцом пашот и томатами черри",i:"beefsteak"},
+{c:"mains",n:"Бефстроганов из говядины",w:"200/150/30 г",p:790,d:"Филе говядины с луком и грибами в сливочном соусе. Подаётся с картофельным пюре",i:"stroganoff"},
+{c:"mains",n:"Цыплёнок табака",w:"300/100/200 г",p:1190,d:"Жареный цыплёнок корнишон на лепёшке с гурийской капустой и свежим луком",i:"tabaka"},
+{c:"mains",n:"Котлеты из цыплёнка с картофельным пюре",w:"100/150 г",p:530,i:"cutlets"},
+{c:"mains",n:"Куриная грудка с грибами и булгуром",w:"350 г",p:590,d:"Нежная куриная грудка с булгуром под сливочно-грибным соусом",i:"chicken-bulgur"},
+{c:"mains",n:"Мегрули",w:"300/100 г",p:790,d:"Томлёная говядина с грецкими орехами и пряными специями",i:"megruli",s:1},
+{c:"mains",n:"Стейк из лосося с овощами",w:"120/200/30 г",p:1290,d:"Запечённый лосось с овощами",i:"salmon-steak"},
+{c:"mains",n:"Сибас с томатами",w:"300/30 г",p:1190,d:"Запечённый сибас со спелыми томатами, чесноком и свежей кинзой",i:"seabass"},
+// company
+{c:"company",n:"Ассорти шашлыков на кости",w:"1750 г",p:3790,d:"Каре ягнёнка, свиные рёбра, цыплёнок корнишон. С молодым картофелем, соусом сацебели и коул-слоу на лаваше",i:"shashlik-bone",ch:1},
+{c:"company",n:"Ассорти шашлыков",w:"1750 г",p:3790,d:"Шашлыки из ягнёнка, свинины, цыплёнка; люля-кебабы из ягнёнка, говядины, цыплёнка. С молодым картофелем, соусом сацебели и коул-слоу на лаваше",i:"shashlik-mix",ch:1},
+{c:"company",n:"Садж",w:"1300 г",d:"Обжаренное мясо с луком и овощами (баклажан, болгарский перец, цуккини, картофель). Подаётся на углях",i:"saj",ch:1,v:[["С грибами",1990],["С цыплёнком",2700],["Со свининой",2900],["С бараниной",3400],["С лососем",3900]]},
+{c:"company",n:"Овощи на компанию",w:"1200 г",p:1990,d:"Запечённые на углях паприка, цуккини, баклажан, шампиньоны, картофель, кукуруза, лук и томаты. Подаётся на лаваше",i:"veg-company"},
+// sides
+{c:"sides",n:"Картофель фри",w:"150 г",p:270,i:"fries"},
+{c:"sides",n:"Картофельное пюре",w:"150 г",p:250,i:"mash"},
+{c:"sides",n:"Булгур с грибами",w:"150 г",p:220,i:"bulgur"},
+{c:"sides",n:"Ассорти овощей на углях",w:"220 г",p:430,d:"Паприка, цуккини, баклажан, шампиньоны, томат, лук",i:"grill-veg"},
+{c:"sides",n:"Шампиньоны на гриле",w:"150 г",p:340},
+{c:"sides",n:"Кукуруза на гриле",w:"150 г",p:420,i:"corn"},
+{c:"sides",n:"Запечённый картофель",w:"150 г",p:250,i:"baked-potato"},
+// bread & sauces
+{c:"bread",n:"Хлеб",w:"100 г",i:"bread",v:[["Пита",80],["Бородинский",80],["Пури",80],["Лаваш",110]]},
+{c:"bread",n:"Соусы",w:"50 г",i:"sauces",v:[["Аджика",99],["Сацебели",99],["Ткемали",99],["Тар-тар",99],["Кетчуп",99],["Сметана",99],["Брусничный",99],["Чесночный",99],["Горчица",99],["Наршараб",99],["Сырный",99],["Мацони",99]]},
+// lemonades & NA cocktails
+{c:"lemon",n:"Малина и грейпфрут",w:"300 мл",p:330,d:"Домашний сироп малина-грейпфрут, лимонный сок, содовая",i:"lem-raspberry"},
+{c:"lemon",n:"Щавель и крыжовник",w:"300 мл",p:330,d:"Домашний сироп щавель-крыжовник, лимонный сок, содовая",i:"lem-sorrel"},
+{c:"lemon",n:"Бергамот и грейпфрут",w:"300 мл",p:330,d:"Домашний сироп бергамот-грейпфрут, лимонный сок, содовая"},
+{c:"lemon",n:"Имбирь и цитрус",w:"300 мл",p:330,d:"Домашний сироп имбирь-цитрусы, лимонный сок, содовая"},
+{c:"lemon",n:"Смородина и тархун",w:"300 мл",p:330,d:"Домашний сироп смородина-тархун, лимонный сок, содовая"},
+{c:"lemon",n:"Домашний лимонад на стол",w:"1000 мл",p:990,d:"Кувшин любого домашнего лимонада"},
+{c:"lemon",n:"Spritz без алкоголя",w:"200 мл",p:420,d:"Безалкогольный аперитив, безалкогольное игристое, тоник",i:"spritz-na"},
+{c:"lemon",n:"Raspberry Spritz без алкоголя",w:"220 мл",p:390,d:"Безалкогольный аперитив, безалкогольное игристое, малина, грейпфрут, тоник"},
+{c:"lemon",n:"Gin Tonic без алкоголя",w:"200 мл",p:390,d:"Безалкогольный джин, тоник, лимон",i:"gin-tonic-na"},
+{c:"lemon",n:"Cherry Gin Tonic без алкоголя",w:"220 мл",p:390,d:"Безалкогольный джин, тоник, вишня, пряности, лимон"},
+{c:"lemon",n:"Джото (горячий)",w:"200 мл",p:360,d:"Облепиховый морс, имбирь, розмарин, апельсин, лимон, мёд"},
+// drinks
+{c:"drinks",n:"Морс домашний",w:"200 мл",p:220},
+{c:"drinks",n:"Сок",w:"200 мл",p:230},
+{c:"drinks",n:"Вода ГВХ",w:"700 мл",p:290,d:"Негазированная или газированная"},
+{c:"drinks",n:"Вода Боржоми",w:"500 мл",p:380},
+{c:"drinks",n:"Лимонад Казбеги",w:"500 мл",p:350},
+{c:"drinks",n:"Кола",w:"330 мл",p:290},
+{c:"drinks",n:"Тоник",w:"330 мл",p:290},
+{c:"drinks",n:"Молочный коктейль",p:370,v:[["Классический",370],["С бананом",370]]},
+{c:"drinks",n:"Лось АПА безалкогольное",w:"330 мл",p:330,d:"Безалкогольное пиво"},
+// coffee
+{c:"coffee",n:"Эспрессо",p:190},{c:"coffee",n:"Американо",p:220},{c:"coffee",n:"Капучино",p:250},{c:"coffee",n:"Латте",p:250},{c:"coffee",n:"Флэт уайт",p:270},
+{c:"coffee",n:"Эспрессо тоник классический",p:350},{c:"coffee",n:"Эспрессо тоник гранатовый",p:380},{c:"coffee",n:"Горячий шоколад",p:390},
+// tea
+{c:"tea",n:"Ассам",v:[["500 мл",370],["900 мл",490]]},
+{c:"tea",n:"Сенча",v:[["500 мл",370],["900 мл",490]]},
+{c:"tea",n:"Зелёный жасмин",v:[["500 мл",370],["900 мл",490]]},
+{c:"tea",n:"Молочный улун",v:[["500 мл",390],["900 мл",520]]},
+{c:"tea",n:"Травяной малина с мятой",v:[["500 мл",390],["900 мл",520]]},
+{c:"tea",n:"Клубничный",v:[["500 мл",390],["900 мл",520]]},
+{c:"tea",n:"Фруктово-ягодный",v:[["500 мл",390],["900 мл",520]]},
+{c:"tea",n:"Эрл Грей",v:[["500 мл",390],["900 мл",520]]},
+{c:"tea",n:"Таёжный (фирменный)",v:[["500 мл",480],["900 мл",590]]},
+{c:"tea",n:"Гранат-шалфей (фирменный)",v:[["500 мл",480],["900 мл",590]]},
+];
+const KEY="bday-menu-v1";
+let sel={}; try{sel=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const rows=[]; // {key,item,vname,price}
+ITEMS.forEach((it,ii)=>{it.id="i"+ii;});
+document.getElementById("nav").innerHTML=CATS.map(([id,n])=>`<a href="#c-${id}">${n}</a>`).join("");
+document.getElementById("main").innerHTML=CATS.map(([cid,cn])=>`<h2 id="c-${cid}">${cn}</h2><div class="cards" data-cat="${cid}">`+ITEMS.filter(i=>i.c===cid).map(it=>{
+  const vs=it.v||[[null,it.p]];
+  const ph=it.i?`<img class="ph" src="img/${it.i}.jpg" loading="lazy" alt="" data-full="img/${it.i}.jpg">`:`<div class="ph noph">🍽</div>`;
+  const tags=(it.s?'<span class="tag" title="острое">🌶</span>':'')+(it.ch?'<span class="tag" title="рекомендация шефа">👨‍🍳</span>':'');
+  const r=vs.map((v,vi)=>{const key=it.id+(v[0]?":"+vi:"");rows.push({key,it,vname:v[0],price:v[1]});
+    return `<div class="row" data-key="${key}"><label><input type="checkbox">${v[0]?esc(v[0]):"Буду"}</label><span class="q"><button data-d="-1">−</button><span>1</span><button data-d="1">+</button></span></div>`}).join("");
+  const hay=[it.n,it.d||"",cn,...vs.map(v=>v[0]||"")].join(" ").toLowerCase().replace(/ё/g,"е");
+  return `<div class="card" id="${it.id}" data-s="${esc(hay)}">${ph}<div><div class="t">${esc(it.n)}${tags}${it.w?`<span class="w">${esc(it.w)}</span>`:""}</div>${it.d?`<div class="d">${esc(it.d)}</div>`:""}${r}</div></div>`;
+}).join("")+`</div>`).join("");
+const nameEl=document.getElementById("name"); nameEl.value=sel._name||"";
+function paint(){
+  let n=0;
+  rows.forEach(({key,it})=>{const el=document.querySelector(`[data-key="${key}"]`),q=sel[key]|0;el.classList.toggle("on",q>0);el.querySelector("input").checked=q>0;el.querySelector(".q span").textContent=q||1;if(q)n++;});
+  document.querySelectorAll(".card").forEach(c=>c.classList.toggle("on",!!c.querySelector(".row.on")));
+  document.getElementById("count").innerHTML=n?`Мой выбор: <b>${n}</b>`:"Пока ничего не выбрано";
+  localStorage.setItem(KEY,JSON.stringify(sel));
+}
+document.getElementById("main").addEventListener("click",e=>{
+  const row=e.target.closest(".row"); if(!row){const im=e.target.closest("img.ph"); if(im){const d=document.getElementById("dlg");d.querySelector("img").src=im.dataset.full;d.showModal();} return;}
+  const key=row.dataset.key, r=rows.find(x=>x.key===key), min=r.it.min||1;
+  if(e.target.matches("input")){sel[key]=e.target.checked?min:0;}
+  else if(e.target.matches("button")){sel[key]=Math.max(min,(sel[key]|0)+ +e.target.dataset.d);}
+  else return;
+  paint();
+});
+document.getElementById("dlg").addEventListener("click",()=>document.getElementById("dlg").close());
+nameEl.addEventListener("input",()=>{sel._name=nameEl.value;localStorage.setItem(KEY,JSON.stringify(sel));});
+function summary(){
+  const name=nameEl.value.trim()||"Гость";
+  let out=`🎂 ${name} будет есть:\n`,any=false;
+  CATS.forEach(([cid,cn])=>{const lines=rows.filter(r=>r.it.c===cid&&sel[r.key]>0).map(r=>`• ${r.it.n}${r.vname?" ("+r.vname.replace(" 🌶","")+")":""}${sel[r.key]>1||r.it.u?" × "+sel[r.key]+(r.it.u?" "+r.it.u:""):""}`);
+    if(lines.length){any=true;out+=`\n${cn}:\n${lines.join("\n")}\n`;}});
+  return any?out:null;
+}
+function toast(t){const el=document.getElementById("toast");el.textContent=t;el.style.opacity=1;setTimeout(()=>el.style.opacity=0,1800);}
+document.getElementById("copy").onclick=async()=>{const s=summary();if(!s)return toast("Сначала отметь что-нибудь");
+  try{await navigator.clipboard.writeText(s);toast("Скопировано, отправь мне в любой мессенджер");}catch(e){prompt("Скопируй текст:",s);}};
+document.getElementById("tg").onclick=async()=>{const s=summary();if(!s)return toast("Сначала отметь что-нибудь");
+  try{await navigator.clipboard.writeText(s)}catch(e){}
+  location.href=`https://t.me/codestage?text=${encodeURIComponent(s)}`;};
+const pick=document.getElementById("pick"),pickList=document.getElementById("pickList");
+function renderPick(){
+  let h="",any=false;
+  for(const [cid,cn] of CATS){
+    const ls=rows.filter(r=>r.it.c===cid&&sel[r.key]>0);
+    if(!ls.length)continue; any=true;
+    h+=`<div class="cat">${cn}</div>`;
+    for(const r of ls){const q=sel[r.key],u=r.it.u?" "+r.it.u:"";
+      h+=`<div class="li" data-key="${r.key}"><div class="nm">${esc(r.it.n)}${r.vname?`<small>${esc(r.vname.replace(" 🌶",""))}</small>`:""}</div>`+
+         `<span class="q" style="display:flex"><button data-d="-1" type="button">−</button><span>${q}${u}</span><button data-d="1" type="button">+</button></span>`+
+         `<button class="del" type="button" aria-label="Убрать">×</button></div>`;}
+  }
+  pickList.innerHTML=any?h:`<div class="none">Пока ничего не выбрано. Отметь блюда в меню.</div>`;
+}
+document.getElementById("count").onclick=()=>{renderPick();pick.showModal();};
+document.getElementById("pickX").onclick=()=>pick.close();
+document.getElementById("pickClear").onclick=()=>{const nm=sel._name;sel={};if(nm)sel._name=nm;paint();renderPick();};
+document.getElementById("pickSend").onclick=()=>{pick.close();document.getElementById("tg").click();};
+pickList.addEventListener("click",e=>{
+  const li=e.target.closest(".li"); if(!li)return;
+  const key=li.dataset.key,r=rows.find(x=>x.key===key),min=r.it.min||1;
+  if(e.target.matches(".del"))sel[key]=0;
+  else if(e.target.matches("[data-d]"))sel[key]=Math.max(min,(sel[key]|0)+ +e.target.dataset.d);
+  else return;
+  paint();renderPick();
+});
+pick.addEventListener("click",e=>{if(e.target===pick)pick.close();});
+const qEl=document.getElementById("q"),qClr=document.getElementById("qclr"),emptyEl=document.getElementById("empty");
+function filter(){
+  const q=qEl.value.trim().toLowerCase().replace(/ё/g,"е");
+  qClr.hidden=!q;
+  let total=0;
+  document.querySelectorAll(".cards").forEach(g=>{
+    let n=0;
+    g.querySelectorAll(".card").forEach(c=>{const hit=!q||c.dataset.s.includes(q);c.hidden=!hit;if(hit)n++;});
+    g.hidden=!n; document.querySelector(`h2#c-${g.dataset.cat}`).hidden=!n; total+=n;
+  });
+  emptyEl.hidden=total>0;
+  document.getElementById("nav").hidden=!!q;
+}
+qEl.addEventListener("input",filter);
+document.querySelectorAll('a[href^="#c-"]').forEach(a=>a.addEventListener("click",()=>{if(qEl.value){qEl.value="";filter();}}));
+qClr.addEventListener("click",()=>{qEl.value="";filter();qEl.focus();});
+paint();filter();
+</script>
+</body>
+</html>
