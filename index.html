@@ -48,6 +48,9 @@ input[type=search]::-webkit-search-cancel-button{display:none}
 .searchwrap input{padding-right:38px}
 .clr{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:28px;height:28px;border:0;background:none;color:var(--mut);font-size:18px;line-height:1;cursor:pointer;border-radius:50%}
 .clr:hover{color:var(--ink)}
+.vegbtn{margin-top:10px;font:inherit;font-size:14px;font-weight:600;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.vegbtn[aria-pressed=true]{background:var(--green);border-color:var(--green);color:var(--btn-ink)}
+.vegbtn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .empty{padding:28px 4px;color:var(--mut);text-align:center}
 h2[hidden],.card[hidden],.empty[hidden]{display:none!important}
 input[type=text],input[type=search]{width:100%;-webkit-appearance:none;appearance:none;font:inherit;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
@@ -64,7 +67,7 @@ h2{font-size:15px;text-transform:uppercase;letter-spacing:.1em;color:var(--imp);
 .ph{width:96px;height:96px;align-self:start;border-radius:10px;object-fit:cover;background:var(--line);cursor:zoom-in}
 .noph{display:flex;align-items:center;justify-content:center;font-size:30px;cursor:default;color:var(--mut)}
 .t{font-weight:700;letter-spacing:-.005em}
-.w{color:var(--mut);font-size:13px;font-weight:400;margin-left:5px;font-variant-numeric:tabular-nums}
+.w{color:var(--mut);font-size:13px;font-weight:400;margin-left:5px;white-space:nowrap;font-variant-numeric:tabular-nums}
 .d{color:var(--mut);font-size:13.5px;margin:3px 0 7px}
 .row{display:flex;align-items:center;gap:8px;padding:5px 0;border-top:1px solid var(--line)}
 .row:first-of-type{border-top:0}
@@ -130,12 +133,13 @@ dialog img{max-width:96vw;max-height:90vh;border-radius:12px;display:block}
     <a class="addr" href="https://yandex.ru/maps/-/CXEuJGk3" target="_blank" rel="noopener">📍 просп. Авиаторов Балтики, 11/1, Мурино</a>
     <p class="note">При входе скажи, что ты на день рождения Дмитрия, тебя проводят к столам.</p>
   </div>
-  <p class="lede">Отметь, что будешь есть и пить, и нажми кнопку внизу: откроется наш чат в Telegram с готовым сообщением. Вечер без алкоголя. Фото увеличиваются по тапу.</p>
+  <p class="lede">Отметь, что будешь есть и пить, и нажми кнопку внизу: откроется наш чат в Telegram с готовым сообщением. Вечер без алкоголя. Фото увеличиваются по тапу. 🌿 значит вегетарианское: без мяса, птицы, рыбы и яиц.</p>
   <p class="tip">🍢 <a href="#c-company">Блюда на компанию</a> бери смело: садж, ассорти шашлыков и хачапури XXL закажем на всех.</p>
   <div class="fields">
     <input type="text" id="name" placeholder="Как тебя зовут" autocomplete="name">
     <div class="searchwrap"><input type="search" id="q" placeholder="Поиск по блюдам" autocomplete="off"><button class="clr" id="qclr" type="button" hidden aria-label="Очистить поиск">×</button></div>
   </div>
+  <button type="button" id="vegBtn" class="vegbtn" aria-pressed="false">🌿 Только вегетарианское</button>
 </header>
 <nav id="nav"></nav>
 <main id="main"></main>
@@ -160,23 +164,23 @@ const CATS=[["cold","Холодные закуски"],["salads","Салаты"]
 // n name, w weight, p price, d description, i image id, s spicy, c chef pick, v variants [name,price], min min qty, u unit
 const ITEMS=[
 // cold
-{c:"cold",n:"Хумус из красной фасоли",w:"120/70/50 г",p:420,d:"Острая восточная закуска из красной фасоли со спелыми томатами. Подаётся с питой",i:"hummus",s:1},
-{c:"cold",n:"Домашние соленья",w:"400 г",p:590,i:"pickles"},
-{c:"cold",n:"Рулеты из жареных баклажанов с ореховой начинкой",w:"160 г",p:490,i:"eggplant-rolls",ch:1},
+{c:"cold",n:"Хумус из красной фасоли",vg:1,w:"120/70/50 г",p:420,d:"Острая восточная закуска из красной фасоли со спелыми томатами. Подаётся с питой",i:"hummus",s:1},
+{c:"cold",n:"Домашние соленья",vg:1,w:"400 г",p:590,i:"pickles"},
+{c:"cold",n:"Рулеты из жареных баклажанов с ореховой начинкой",vg:1,w:"160 г",p:490,i:"eggplant-rolls",ch:1},
 {c:"cold",n:"Сет грузинских закусок",w:"500 г",p:890,d:"Пхали из свеклы и шпината, рулеты из баклажанов, хумус из красной фасоли, бабагануш из запечённых баклажанов. Подаётся с сырными лепёшками от шефа",i:"set",ch:1},
 {c:"cold",n:"Баклажаны в соусе баже",w:"180 г",p:420,d:"Хрустящие баклажаны в ореховом соусе",i:"eggplant-bazhe"},
-{c:"cold",n:"Сезонные овощи с зеленью",w:"300 г",p:550,i:"veg"},
+{c:"cold",n:"Сезонные овощи с зеленью",vg:1,w:"300 г",p:550,i:"veg"},
 {c:"cold",n:"Сельдь с картофелем",w:"350 г",p:480,d:"Сельдь с молодым картофелем, красным луком и зеленью",i:"herring"},
 {c:"cold",n:"Тар-тар из лосося",w:"160 г",p:780,d:"Лёгкая закуска из лосося и спелого авокадо на подушке из сырного крема в хрустящей корзинке",i:"salmon-tartare"},
 {c:"cold",n:"Мясное ассорти",w:"180/100/20 г",p:750,d:"Вяленое мясо (бастурма, суджук), грудинка, балык из свинины. Подаётся с кукурузой и ароматной горчицей",i:"meat-platter"},
 {c:"cold",n:"Ассорти грузинских сыров",w:"200/50/50 г",p:750,d:"Сулугуни, копчёный сулугуни, чечил, копчёная косичка, адыгейский сыр. Подаётся с ореховой выпечкой, домашним вареньем и мёдом",i:"cheese-platter"},
-{c:"cold",n:"Бабагануш",w:"120/50 г",p:450,d:"Икра из запечённых на углях баклажанов и паприки. Подаётся с питой",i:"babaganush",s:1,ch:1},
-{c:"cold",n:"Пхали из свеклы и шпината",w:"120/50 г",p:390,d:"Классическая грузинская закуска со шпинатом, свеклой, грузинскими специями и грецким орехом. Подаётся с лепёшкой пури",i:"pkhali"},
+{c:"cold",n:"Бабагануш",vg:1,w:"120/50 г",p:450,d:"Икра из запечённых на углях баклажанов и паприки. Подаётся с питой",i:"babaganush",s:1,ch:1},
+{c:"cold",n:"Пхали из свеклы и шпината",vg:1,w:"120/50 г",p:390,d:"Классическая грузинская закуска со шпинатом, свеклой, грузинскими специями и грецким орехом. Подаётся с лепёшкой пури",i:"pkhali"},
 {c:"cold",n:"Сациви из цыплёнка",w:"200 г",p:490,d:"Традиционное грузинское блюдо из курицы в ореховом соусе",i:"satsivi"},
 // salads
-{c:"salads",n:"Грузинский салат",w:"240 г",p:470,d:"Острый салат со спелыми томатами, свежими огурцами, красным луком и грецкими орехами",i:"georgian-salad",s:1,ch:1},
+{c:"salads",n:"Грузинский салат",vg:1,w:"240 г",p:470,d:"Острый салат со спелыми томатами, свежими огурцами, красным луком и грецкими орехами",i:"georgian-salad",s:1,ch:1},
 {c:"salads",n:"Оливье с цыплёнком",w:"200 г",p:397,d:"Филе цыплёнка су-вид, куриное яйцо, томаты черри, домашний майонез",i:"olivier-chicken"},
-{c:"salads",n:"Мангал-салат",w:"200/50 г",p:490,d:"Запечённые на углях овощи со свежим томатом, заправленные винным уксусом, чесноком и свежей зеленью. Подаётся с питой",i:"mangal-salad"},
+{c:"salads",n:"Мангал-салат",vg:1,w:"200/50 г",p:490,d:"Запечённые на углях овощи со свежим томатом, заправленные винным уксусом, чесноком и свежей зеленью. Подаётся с питой",i:"mangal-salad"},
 {c:"salads",n:"Салат с хрустящими баклажанами",w:"220 г",p:597,d:"Хрустящие баклажаны со спелыми томатами и сливочным сыром под сладко-острым соусом",i:"crispy-eggplant-salad",ch:1},
 {c:"salads",n:"Цезарь с курицей",w:"235 г",p:590,d:"Ромейн, томаты черри, куриное филе, перепелиное яйцо, пармезан, чипсы из багета",i:"caesar-chicken"},
 {c:"salads",n:"Тбилисури",w:"250 г",p:590,d:"Микс айсберг и ромейн, жареное филе цыплёнка, свежие томаты, красный лук, орехово-сливочный соус. Подаётся с обжаренным адыгейским сыром",i:"tbilisuri",s:1},
@@ -189,10 +193,10 @@ const ITEMS=[
 {c:"hot",n:"Сырные палочки",w:"120/30/20 г",p:450,d:"Сулугуни в хрустящей панировке. Подаётся с брусничным соусом, черносливом и курагой",i:"cheese-sticks"},
 {c:"hot",n:"Креветки под соусом киндзмари",w:"200 г",p:790,d:"Жареные тигровые креветки под соусом киндзмари",i:"shrimp-kindzmari",s:1},
 {c:"hot",n:"Креветки под соусом чкмерули",w:"250 г",p:890,d:"Жареные тигровые креветки в сливочно-чесночном соусе",i:"shrimp-chkmeruli"},
-{c:"hot",n:"Аджапсандал",w:"300 г",p:490,d:"Жареные овощи с грузинскими специями и ароматной зеленью",i:"ajapsandal"},
+{c:"hot",n:"Аджапсандал",vg:1,w:"300 г",p:490,d:"Жареные овощи с грузинскими специями и ароматной зеленью",i:"ajapsandal"},
 {c:"hot",n:"Долма",w:"180/50 г",p:590,d:"Фарш из свинины и говядины с рисом и травами в виноградных листьях. Подаётся с соусом мацони",i:"dolma",ch:1},
-{c:"hot",n:"Запечённые шампиньоны под сыром сулугуни",w:"220 г",p:430,i:"mushrooms-suluguni"},
-{c:"hot",n:"Лобио",w:"300/50/50 г",p:390,d:"Томлёная красная фасоль с пряными специями. Подаётся с маринованной гурийской капустой и питой",i:"lobio"},
+{c:"hot",n:"Запечённые шампиньоны под сыром сулугуни",vg:1,w:"220 г",p:430,i:"mushrooms-suluguni"},
+{c:"hot",n:"Лобио",vg:1,w:"300/50/50 г",p:390,d:"Томлёная красная фасоль с пряными специями. Подаётся с маринованной гурийской капустой и питой",i:"lobio"},
 // soups
 {c:"soups",n:"Харчо",w:"300 г",p:490,d:"Острый грузинский суп с говядиной, рисом, томатами и специями",i:"kharcho",s:1,ch:1},
 {c:"soups",n:"Борщ с говядиной",w:"300/100/30 г",p:470,d:"Подаётся с салом, зелёным луком, сметаной и бородинским хлебом",i:"borscht"},
@@ -237,18 +241,18 @@ const ITEMS=[
 {c:"company",n:"Ассорти шашлыков на кости",w:"1750 г",p:3790,d:"Каре ягнёнка, свиные рёбра, цыплёнок корнишон. С молодым картофелем, соусом сацебели и коул-слоу на лаваше",i:"shashlik-bone",ch:1},
 {c:"company",n:"Ассорти шашлыков",w:"1750 г",p:3790,d:"Шашлыки из ягнёнка, свинины, цыплёнка; люля-кебабы из ягнёнка, говядины, цыплёнка. С молодым картофелем, соусом сацебели и коул-слоу на лаваше",i:"shashlik-mix",ch:1},
 {c:"company",n:"Садж",w:"1300 г",d:"Обжаренное мясо с луком и овощами (баклажан, болгарский перец, цуккини, картофель). Подаётся на углях",i:"saj",ch:1,v:[["С грибами",1990],["С цыплёнком",2700],["Со свининой",2900],["С бараниной",3400],["С лососем",3900]]},
-{c:"company",n:"Овощи на компанию",w:"1200 г",p:1990,d:"Запечённые на углях паприка, цуккини, баклажан, шампиньоны, картофель, кукуруза, лук и томаты. Подаётся на лаваше",i:"veg-company"},
+{c:"company",n:"Овощи на компанию",vg:1,w:"1200 г",p:1990,d:"Запечённые на углях паприка, цуккини, баклажан, шампиньоны, картофель, кукуруза, лук и томаты. Подаётся на лаваше",i:"veg-company"},
 // sides
-{c:"sides",n:"Картофель фри",w:"150 г",p:270,i:"fries"},
-{c:"sides",n:"Картофельное пюре",w:"150 г",p:250,i:"mash"},
+{c:"sides",n:"Картофель фри",vg:1,w:"150 г",p:270,i:"fries"},
+{c:"sides",n:"Картофельное пюре",vg:1,w:"150 г",p:250,i:"mash"},
 {c:"sides",n:"Булгур с грибами",w:"150 г",p:220,i:"bulgur"},
-{c:"sides",n:"Ассорти овощей на углях",w:"220 г",p:430,d:"Паприка, цуккини, баклажан, шампиньоны, томат, лук",i:"grill-veg"},
-{c:"sides",n:"Шампиньоны на гриле",w:"150 г",p:340},
-{c:"sides",n:"Кукуруза на гриле",w:"150 г",p:420,i:"corn"},
-{c:"sides",n:"Запечённый картофель",w:"150 г",p:250,i:"baked-potato"},
+{c:"sides",n:"Ассорти овощей на углях",vg:1,w:"220 г",p:430,d:"Паприка, цуккини, баклажан, шампиньоны, томат, лук",i:"grill-veg"},
+{c:"sides",n:"Шампиньоны на гриле",vg:1,w:"150 г",p:340},
+{c:"sides",n:"Кукуруза на гриле",vg:1,w:"150 г",p:420,i:"corn"},
+{c:"sides",n:"Запечённый картофель",vg:1,w:"150 г",p:250,i:"baked-potato"},
 // bread & sauces
-{c:"bread",n:"Хлеб",w:"100 г",i:"bread",v:[["Пита",80],["Бородинский",80],["Пури",80],["Лаваш",110]]},
-{c:"bread",n:"Соусы",w:"50 г",i:"sauces",v:[["Аджика",99],["Сацебели",99],["Ткемали",99],["Тар-тар",99],["Кетчуп",99],["Сметана",99],["Брусничный",99],["Чесночный",99],["Горчица",99],["Наршараб",99],["Сырный",99],["Мацони",99]]},
+{c:"bread",n:"Хлеб",vg:1,w:"100 г",i:"bread",v:[["Пита",80],["Бородинский",80],["Пури",80],["Лаваш",110]]},
+{c:"bread",n:"Соусы",w:"50 г",i:"sauces",v:[["Аджика 🌿",99],["Сацебели 🌿",99],["Ткемали 🌿",99],["Тар-тар",99],["Кетчуп 🌿",99],["Сметана 🌿",99],["Брусничный 🌿",99],["Чесночный",99],["Горчица 🌿",99],["Наршараб 🌿",99],["Сырный",99],["Мацони 🌿",99]]},
 // lemonades & NA cocktails
 {c:"lemon",n:"Малина и грейпфрут",w:"300 мл",p:330,d:"Домашний сироп малина-грейпфрут, лимонный сок, содовая",i:"lem-raspberry"},
 {c:"lemon",n:"Щавель и крыжовник",w:"300 мл",p:330,d:"Домашний сироп щавель-крыжовник, лимонный сок, содовая",i:"lem-sorrel"},
@@ -298,7 +302,7 @@ const ITEMS=[
 {c:"mangal",n:"Кебаб из говядины",w:"315 г",p:697,d:"Люля-кебаб. Подаётся на лаваше с маринованным луком, салатом коул-слоу и соусом Сацебели",i:"m-keb-beef"},
 {c:"mangal",n:"Кебаб из цыплёнка",w:"315 г",p:557,d:"Люля-кебаб. Подаётся на лаваше с маринованным луком, салатом коул-слоу и соусом Сацебели",i:"m-keb-chicken"},
 {c:"chanterelle",n:"Бефстроганов с лисичками",w:"380 г",p:870,d:"Бефстроганов с картофельным пюре, маринованными лисичками",i:"l-stroganoff"},
-{c:"chanterelle",n:"Жареная картошка с лисичками",w:"235 г",p:440,d:"Жареный картофель с репчатым луком, лисичками, зелёным луком и укропом. Подаётся со сметаной",i:"l-potato"},
+{c:"chanterelle",n:"Жареная картошка с лисичками",vg:1,w:"235 г",p:440,d:"Жареный картофель с репчатым луком, лисичками, зелёным луком и укропом. Подаётся со сметаной",i:"l-potato"},
 {c:"chanterelle",n:"Пряный крем-суп с лисичками",w:"300 г",p:580,d:"Нежный сливочный крем-суп из лисичек. Подаётся с сыром Пармезан",i:"l-soup"},
 {c:"chanterelle",n:"Салат с лисичками",w:"270 г",p:580,d:"Беби картофель, томаты черри, лисички шеф-посола, салат ромейн, красный лук, битые огурцы, медово-горчичный соус",i:"l-salad"},
 {c:"chanterelle",n:"Хачапури по-аджарски с лисичками",w:"400 г",p:690,d:"Сыр сулугуни, жареные лисички, репчатый лук",i:"l-adjarian"},
@@ -319,10 +323,10 @@ document.getElementById("nav").innerHTML=CATS.map(([id,n])=>`<a href="#c-${id}">
 document.getElementById("main").innerHTML=CATS.map(([cid,cn])=>`<h2 id="c-${cid}">${cn}</h2><div class="cards" data-cat="${cid}">`+ITEMS.filter(i=>i.c===cid).map(it=>{
   const vs=it.v||[[null,it.p]];
   const ph=it.i?`<img class="ph" src="img/${it.i}.jpg" loading="lazy" alt="" data-full="img/${it.i}.jpg">`:`<div class="ph noph">🍽</div>`;
-  const tags=(it.s?'<span class="tag" title="острое">🌶</span>':'')+(it.ch?'<span class="tag" title="рекомендация шефа">👨‍🍳</span>':'');
+  const tags=(it.vg?'<span class="tag" title="вегетарианское">🌿</span>':'')+(it.s?'<span class="tag" title="острое">🌶</span>':'')+(it.ch?'<span class="tag" title="рекомендация шефа">👨‍🍳</span>':'');
   const r=vs.map((v,vi)=>{const key=it.id+(v[0]?":"+vi:"");rows.push({key,it,vname:v[0],price:v[1]});
     return `<div class="row" data-key="${key}"><label><input type="checkbox">${v[0]?esc(v[0]):"Буду"}</label><span class="q"><button data-d="-1">−</button><span>1</span><button data-d="1">+</button></span></div>`}).join("");
-  const hay=[it.n,it.d||"",cn,...vs.map(v=>v[0]||"")].join(" ").toLowerCase().replace(/ё/g,"е");
+  const hay=[it.n,it.d||"",cn,...vs.map(v=>v[0]||""),(it.vg||vs.some(v=>(v[0]||"").includes("🌿")))?"вегетарианское":""].join(" ").toLowerCase().replace(/ё/g,"е");
   return `<div class="card" id="${it.id}" data-s="${esc(hay)}">${ph}<div><div class="t">${esc(it.n)}${tags}${it.w?`<span class="w">${esc(it.w)}</span>`:""}</div>${it.d?`<div class="d">${esc(it.d)}</div>`:""}${r}</div></div>`;
 }).join("")+`</div>`).join("");
 const nameEl=document.getElementById("name"); nameEl.value=sel._name||"";
@@ -346,7 +350,7 @@ nameEl.addEventListener("input",()=>{sel._name=nameEl.value;localStorage.setItem
 function summary(){
   const name=nameEl.value.trim()||"Гость";
   let out=`🎂 ${name} будет есть:\n`,any=false;
-  CATS.forEach(([cid,cn])=>{const lines=rows.filter(r=>r.it.c===cid&&sel[r.key]>0).map(r=>`• ${r.it.n}${r.vname?" ("+r.vname.replace(" 🌶","")+")":""}${sel[r.key]>1||r.it.u?" × "+sel[r.key]+(r.it.u?" "+r.it.u:""):""}`);
+  CATS.forEach(([cid,cn])=>{const lines=rows.filter(r=>r.it.c===cid&&sel[r.key]>0).map(r=>`• ${r.it.n}${r.vname?" ("+r.vname.replace(/ [🌶🌿]/gu,"")+")":""}${sel[r.key]>1||r.it.u?" × "+sel[r.key]+(r.it.u?" "+r.it.u:""):""}`);
     if(lines.length){any=true;out+=`\n${cn}:\n${lines.join("\n")}\n`;}});
   return any?out:null;
 }
@@ -364,7 +368,7 @@ function renderPick(){
     if(!ls.length)continue; any=true;
     h+=`<div class="cat">${cn}</div>`;
     for(const r of ls){const q=sel[r.key],u=r.it.u?" "+r.it.u:"";
-      h+=`<div class="li" data-key="${r.key}"><div class="nm">${esc(r.it.n)}${r.vname?`<small>${esc(r.vname.replace(" 🌶",""))}</small>`:""}</div>`+
+      h+=`<div class="li" data-key="${r.key}"><div class="nm">${esc(r.it.n)}${r.vname?`<small>${esc(r.vname.replace(/ [🌶🌿]/gu,""))}</small>`:""}</div>`+
          `<span class="q" style="display:flex"><button data-d="-1" type="button">−</button><span>${q}${u}</span><button data-d="1" type="button">+</button></span>`+
          `<button class="del" type="button" aria-label="Убрать">×</button></div>`;}
   }
@@ -384,20 +388,23 @@ pickList.addEventListener("click",e=>{
 });
 pick.addEventListener("click",e=>{if(e.target===pick)pick.close();});
 const qEl=document.getElementById("q"),qClr=document.getElementById("qclr"),emptyEl=document.getElementById("empty");
+let vegOnly=false;const vegBtn=document.getElementById("vegBtn");
+vegBtn.addEventListener("click",()=>{vegOnly=!vegOnly;filter();});
 function filter(){
   const q=qEl.value.trim().toLowerCase().replace(/ё/g,"е");
   qClr.hidden=!q;
+  vegBtn.setAttribute("aria-pressed",vegOnly);
   let total=0;
   document.querySelectorAll(".cards").forEach(g=>{
     let n=0;
-    g.querySelectorAll(".card").forEach(c=>{const hit=!q||c.dataset.s.includes(q);c.hidden=!hit;if(hit)n++;});
+    g.querySelectorAll(".card").forEach(c=>{const hit=(!q||c.dataset.s.includes(q))&&(!vegOnly||c.dataset.s.includes("вегетарианское"));c.hidden=!hit;if(hit)n++;});
     g.hidden=!n; document.querySelector(`h2#c-${g.dataset.cat}`).hidden=!n; total+=n;
   });
   emptyEl.hidden=total>0;
-  document.getElementById("nav").hidden=!!q;
+  document.getElementById("nav").hidden=!!q||vegOnly;
 }
 qEl.addEventListener("input",filter);
-document.querySelectorAll('a[href^="#c-"]').forEach(a=>a.addEventListener("click",()=>{if(qEl.value){qEl.value="";filter();}}));
+document.querySelectorAll('a[href^="#c-"]').forEach(a=>a.addEventListener("click",()=>{if(qEl.value||vegOnly){qEl.value="";vegOnly=false;filter();}}));
 qClr.addEventListener("click",()=>{qEl.value="";filter();qEl.focus();});
 paint();filter();
 </script>
